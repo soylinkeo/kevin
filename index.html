@@ -6,126 +6,154 @@
   <title>Perfil · Linkeo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:         #8faa96;
-      --btn-bg:     #ffffff;
-      --btn-border: rgba(255,255,255,0.6);
-      --text:       #1a2018;
-      --muted:      rgba(26,32,24,0.5);
-      --name:       #1a2018;
+      --bg: #8faa96;
+      --card: rgba(255,255,255,0.93);
+      --text: #1c2b1e;
+      --white: #ffffff;
+      --shadow: rgba(30,55,32,0.18);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       min-height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Jost', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse 90% 50% at 50% -10%, rgba(255,255,255,0.28) 0%, transparent 70%),
+        radial-gradient(ellipse 70% 40% at 20% 110%, rgba(0,0,0,0.14) 0%, transparent 65%),
+        linear-gradient(165deg, #a3bc9e 0%, #8faa96 40%, #7a9882 100%);
+      min-height: 100vh;
     }
 
     .page {
+      position: relative; z-index: 1;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px 24px 60px;
+      padding: 52px 20px 72px;
     }
 
+    /* ── Avatar ── */
     .avatar-wrap {
       position: relative;
-      width: 100px;
-      height: 100px;
-      margin-bottom: 18px;
+      width: 104px; height: 104px;
+      margin-bottom: 20px;
       opacity: 0;
-      animation: fadeUp 0.6s 0.1s ease both;
+      animation: fadeUp 0.65s 0.05s ease both;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: -7px;
+      border-radius: 50%;
+      animation: spinRing 12s linear infinite;
+      background: conic-gradient(transparent 0deg, rgba(255,255,255,0.7) 60deg, transparent 120deg);
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), white calc(100% - 2px));
+              mask: radial-gradient(farthest-side, transparent calc(100% - 2px), white calc(100% - 2px));
+    }
+
+    @keyframes spinRing {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
     }
 
     .avatar {
-      width: 100px;
-      height: 100px;
+      width: 104px; height: 104px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid rgba(255,255,255,0.8);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      border: 3px solid rgba(255,255,255,0.95);
+      box-shadow: 0 8px 32px var(--shadow), 0 2px 8px rgba(0,0,0,0.1);
       display: block;
+      position: relative; z-index: 1;
       transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
     }
-
     .avatar:hover { transform: scale(1.05); }
 
     .avatar-placeholder {
-      width: 100px;
-      height: 100px;
+      width: 104px; height: 104px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.3);
-      border: 3px solid rgba(255,255,255,0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 36px;
+      background: rgba(255,255,255,0.22);
+      border: 3px solid rgba(255,255,255,0.95);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 38px;
+      position: relative; z-index: 1;
     }
 
+    /* ── Name ── */
     .name {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px;
-      font-weight: 400;
-      color: var(--name);
-      letter-spacing: 0.2px;
+      font-family: 'DM Serif Display', serif;
+      font-size: 30px;
+      color: var(--white);
       text-align: center;
-      line-height: 1.2;
+      line-height: 1.15;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.14);
       opacity: 0;
-      animation: fadeUp 0.6s 0.2s ease both;
+      animation: fadeUp 0.6s 0.15s ease both;
     }
 
     .subtitle {
       font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 3px;
+      font-weight: 400;
+      letter-spacing: 3.5px;
       text-transform: uppercase;
-      color: var(--muted);
+      color: rgba(255,255,255,0.6);
       text-align: center;
-      margin-top: 6px;
+      margin-top: 7px;
       opacity: 0;
-      animation: fadeUp 0.6s 0.3s ease both;
+      animation: fadeUp 0.6s 0.25s ease both;
     }
 
+    /* ── Social icons row (arriba) ── */
     .socials {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 18px;
+      flex-wrap: wrap;
+      gap: 8px;
       margin-top: 22px;
-      margin-bottom: 28px;
       opacity: 0;
-      animation: fadeUp 0.6s 0.4s ease both;
+      animation: fadeUp 0.55s 0.35s ease both;
     }
 
     .social-btn {
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text);
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white);
       text-decoration: none;
-      border-radius: 50%;
-      transition: transform 0.2s ease, background 0.2s ease;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.28);
+      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     }
-
     .social-btn:hover {
-      transform: scale(1.2);
-      background: rgba(255,255,255,0.2);
+      transform: translateY(-3px) scale(1.1);
+      background: rgba(255,255,255,0.26);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.14);
+    }
+    .social-btn svg { width: 19px; height: 19px; fill: currentColor; }
+
+    /* ── Divider ── */
+    .divider {
+      width: 44px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      margin: 22px 0;
+      opacity: 0;
+      animation: fadeIn 0.5s 0.44s ease both;
     }
 
-    .social-btn svg { width: 20px; height: 20px; fill: currentColor; }
-
+    /* ── Link buttons ── */
     .links {
       width: 100%;
-      max-width: 360px;
+      max-width: 348px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -134,66 +162,81 @@
     .link-btn {
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 15px 20px;
-      border-radius: 10px;
-      background: var(--btn-bg);
-      border: 1.5px solid var(--btn-border);
+      gap: 13px;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.7);
       color: var(--text);
       text-decoration: none;
-      font-family: 'Jost', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 14px;
       font-weight: 400;
-      letter-spacing: 0.3px;
-      text-align: center;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, background 0.2s ease;
+      box-shadow: 0 3px 14px var(--shadow), 0 1px 3px rgba(0,0,0,0.05);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, background 0.15s ease;
       opacity: 0;
       animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
     }
-
     .link-btn:hover {
-      transform: translateY(-2px) scale(1.01);
-      box-shadow: 0 6px 24px rgba(0,0,0,0.14);
-      background: rgba(255,255,255,0.95);
+      transform: translateY(-2px) scale(1.012);
+      box-shadow: 0 10px 32px var(--shadow);
+      background: #ffffff;
+    }
+    .link-btn:active { transform: scale(0.98); }
+
+    .link-icon-wrap {
+      width: 34px; height: 34px; flex-shrink: 0;
+      border-radius: 10px;
+      background: rgba(28,43,30,0.07);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .link-icon-wrap.fill svg { width: 17px; height: 17px; fill: var(--text); }
+    .link-icon-wrap.stroke svg { width: 17px; height: 17px; fill: none; stroke: var(--text); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .link-label {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .link-btn:active { transform: scale(0.98); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .link-arrow {
+      flex-shrink: 0;
+      color: rgba(28,43,30,0.2);
+      transition: color 0.18s ease, transform 0.18s ease;
+    }
+    .link-btn:hover .link-arrow { color: rgba(28,43,30,0.5); transform: translateX(2px) translateY(-2px); }
 
+    /* ── Footer ── */
     .footer {
-      margin-top: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
+      margin-top: 38px;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
       opacity: 0;
-      animation: fadeIn 0.6s 1.4s ease both;
+      animation: fadeIn 0.6s 1.8s ease both;
     }
+    .footer-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.3); margin-bottom: 6px; }
+    .footer-made  { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    .footer-brand { font-size: 12px; font-weight: 500; letter-spacing: 3.5px; text-transform: uppercase; color: rgba(255,255,255,0.52); margin-top: 1px; }
 
-    .footer-made  { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
-    .footer-brand { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text); opacity: 0.5; }
-
+    /* ── Skeleton ── */
     @keyframes shimmer {
       0%   { background-position: -400px 0; }
-      100% { background-position: 400px 0; }
+      100% { background-position:  400px 0; }
     }
-
     .skeleton {
-      background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+      background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.1) 75%);
       background-size: 800px 100%;
       animation: shimmer 1.6s infinite linear;
       border-radius: 8px;
     }
-
-    .sk-avatar { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 18px; }
-    .sk-line   { height: 12px; border-radius: 6px; }
-    .sk-btn    { height: 52px; border-radius: 10px; }
+    .sk-avatar { width: 104px; height: 104px; border-radius: 50%; margin-bottom: 20px; }
+    .sk-line   { height: 13px; border-radius: 6px; }
+    .sk-btn    { height: 58px; border-radius: 16px; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes fadeIn {
       from { opacity: 0; }
       to   { opacity: 1; }
@@ -204,9 +247,9 @@
   <div class="page" id="page">
     <div class="skeleton sk-avatar"></div>
     <div class="skeleton sk-line" style="width:160px"></div>
-    <div class="skeleton sk-line" style="width:100px; height:10px; margin-top:8px; opacity:0.6"></div>
-    <div style="height:28px"></div>
-    <div style="width:100%; max-width:360px; display:flex; flex-direction:column; gap:10px;">
+    <div class="skeleton sk-line" style="width:110px; height:10px; margin-top:9px; opacity:0.6"></div>
+    <div style="height:36px"></div>
+    <div style="width:100%; max-width:348px; display:flex; flex-direction:column; gap:10px;">
       <div class="skeleton sk-btn"></div>
       <div class="skeleton sk-btn" style="opacity:0.7"></div>
       <div class="skeleton sk-btn" style="opacity:0.45"></div>
@@ -217,95 +260,123 @@
     const SLUG     = "linkeo";
     const API_BASE = "https://linkeobackend2026-production.up.railway.app/api";
 
-    const PLATFORM_META = {
-      instagram: { icon: `<svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>` },
-      tiktok:    { icon: `<svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>` },
-      twitter:   { icon: `<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>` },
-      facebook:  { icon: `<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>` },
-      youtube:   { icon: `<svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>` },
-      linkedin:  { icon: `<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>` },
-      whatsapp:  { icon: `<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>` },
+    const SOCIAL_KEYS = ["instagram","tiktok","twitter","x","facebook","youtube","linkedin","whatsapp","telegram"];
+
+    const DISPLAY_NAMES = {
+      instagram:"Instagram", tiktok:"TikTok", twitter:"Twitter", x:"X",
+      facebook:"Facebook", youtube:"YouTube", linkedin:"LinkedIn",
+      whatsapp:"WhatsApp", telegram:"Telegram", website:"Sitio web",
+      phone:"Teléfono", email:"Email", pdf:"Descargar PDF", custom:"Enlace",
     };
 
-    function normalizeUrl(url) {
+    const ICONS_FILL = {
+      instagram: '<svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>',
+      tiktok:    '<svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>',
+      twitter:   '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+      x:         '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+      facebook:  '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
+      youtube:   '<svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
+      linkedin:  '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
+      whatsapp:  '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>',
+      telegram:  '<svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>',
+    };
+
+    const ICONS_STROKE = {
+      website: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+      phone:   '<svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+      email:   '<svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+      pdf:     '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+      default: '<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+    };
+
+    function iconHtml(key, forBtn) {
+      const k = (key || "").toLowerCase();
+      if (ICONS_FILL[k]) {
+        if (!forBtn) return ICONS_FILL[k];
+        return '<div class="link-icon-wrap fill">' + ICONS_FILL[k] + '</div>';
+      }
+      const s = ICONS_STROKE[k] || ICONS_STROKE.default;
+      if (!forBtn) return s;
+      return '<div class="link-icon-wrap stroke">' + s + '</div>';
+    }
+
+    function label(key, customName) {
+      if (customName && customName.trim() && customName.trim() !== key) return customName.trim();
+      return DISPLAY_NAMES[(key||"").toLowerCase()] || key || "Enlace";
+    }
+
+    function href(url) {
       if (!url) return "#";
       if (/^(mailto:|tel:|https?:\/\/)/.test(url)) return url;
       return "https://" + url;
     }
 
-    function getPlatformKey(key, url) {
-      const k = (key || "").toLowerCase();
-      const u = (url || "").toLowerCase();
-      if (k.includes("instagram") || u.includes("instagram")) return "instagram";
-      if (k.includes("tiktok") || u.includes("tiktok")) return "tiktok";
-      if (k.includes("twitter") || u.includes("twitter") || u.includes("x.com")) return "twitter";
-      if (k.includes("facebook") || u.includes("facebook")) return "facebook";
-      if (k.includes("youtube") || u.includes("youtube")) return "youtube";
-      if (k.includes("linkedin") || u.includes("linkedin")) return "linkedin";
-      if (k.includes("whatsapp") || u.includes("wa.me")) return "whatsapp";
-      return null;
-    }
-
     async function render() {
       const page = document.getElementById("page");
       try {
-        const res  = await fetch(`${API_BASE}/profiles/public/${SLUG}`);
+        const res  = await fetch(API_BASE + "/profiles/public/" + SLUG);
         if (!res.ok) throw new Error("Perfil no encontrado");
         const data = await res.json();
 
-        const name        = data.theme?.title || data.displayName || "";
-        const description = data.theme?.description || data.bio || "";
-        const avatarUrl   = data.theme?.avatarUrl || "";
+        const name      = (data.theme && data.theme.title) || data.displayName || "";
+        const desc      = (data.theme && data.theme.description) || data.bio || "";
+        const avatarUrl = (data.theme && data.theme.avatarUrl) || "";
 
-        const platformLinks = (data.links || [])
-          .filter(l => l.visible !== false && l.url && l.url.trim())
-          .map(l => ({ key: l.key, name: l.key, url: l.url, order: l.order ?? 9999 }));
+        const platLinks = (data.links || [])
+          .filter(function(l){ return l.visible !== false && l.url && l.url.trim(); })
+          .map(function(l){ return { key: l.key, name: l.key, url: l.url, order: l.order != null ? l.order : 9999 }; });
 
-        const customLinks = (data.customLinks || [])
-          .filter(l => l.visible !== false && l.url && l.url.trim())
-          .map(l => ({ key: null, name: l.name || "Enlace", url: l.url, order: l.order ?? 9999 }));
+        const custLinks = (data.customLinks || [])
+          .filter(function(l){ return l.visible !== false && l.url && l.url.trim(); })
+          .map(function(l){ return { key: "custom", name: l.name || "Enlace", url: l.url, order: l.order != null ? l.order : 9999 }; });
 
-        const allLinks = [...platformLinks, ...customLinks].sort((a, b) => a.order - b.order);
+        const allLinks = platLinks.concat(custLinks)
+          .sort(function(a,b){ return a.order - b.order; });
 
-        const socialLinks = allLinks.filter(l => l.key && getPlatformKey(l.key, l.url));
-        const buttonLinks = allLinks.filter(l => !l.key || !getPlatformKey(l.key, l.url));
+        const socialLinks = allLinks.filter(function(l){
+          return SOCIAL_KEYS.indexOf((l.key||"").toLowerCase()) !== -1;
+        });
 
-        const avatarHtml = avatarUrl
-          ? `<img class="avatar" src="${avatarUrl}" alt="${name}" />`
-          : `<div class="avatar-placeholder">👤</div>`;
+        // Avatar
+        var avatarHtml = avatarUrl
+          ? '<img class="avatar" src="' + avatarUrl + '" alt="' + name + '" />'
+          : '<div class="avatar-placeholder">👤</div>';
 
-        const socialsHtml = socialLinks.length === 0 ? "" : `
-          <div class="socials">
-            ${socialLinks.map(l => {
-              const pk = getPlatformKey(l.key, l.url);
-              const meta = PLATFORM_META[pk];
-              if (!meta) return "";
-              return `<a class="social-btn" href="${normalizeUrl(l.url)}" target="_blank" rel="noreferrer">${meta.icon}</a>`;
-            }).join("")}
-          </div>`;
+        // Socials row
+        var socialsHtml = "";
+        if (socialLinks.length > 0) {
+          socialsHtml = '<div class="socials">' +
+            socialLinks.map(function(l){
+              return '<a class="social-btn" href="' + href(l.url) + '" target="_blank" rel="noreferrer" title="' + label(l.key, l.name) + '">' + iconHtml(l.key, false) + '</a>';
+            }).join("") +
+          '</div>';
+        }
 
-        const buttonsHtml = buttonLinks.length === 0 ? "" : `
-          <div class="links">
-            ${buttonLinks.map((l, i) => `
-              <a class="link-btn" href="${normalizeUrl(l.url)}" target="_blank" rel="noreferrer"
-                 style="animation-delay:${0.5 + i * 0.08}s">
-                ${l.name || "Enlace"}
-              </a>`).join("")}
-          </div>`;
+        // All links as buttons
+        var buttonsHtml = "";
+        if (allLinks.length > 0) {
+          buttonsHtml = '<div class="links">' +
+            allLinks.map(function(l, i){
+              return '<a class="link-btn" href="' + href(l.url) + '" target="_blank" rel="noreferrer" style="animation-delay:' + (0.52 + i * 0.07) + 's">' +
+                iconHtml(l.key, true) +
+                '<span class="link-label">' + label(l.key, l.name) + '</span>' +
+                '<svg class="link-arrow" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+              '</a>';
+            }).join("") +
+          '</div>';
+        }
 
-        page.innerHTML = `
-          <div class="avatar-wrap">${avatarHtml}</div>
-          ${name ? `<div class="name">${name}</div>` : ""}
-          ${description ? `<div class="subtitle">${description}</div>` : ""}
-          ${socialsHtml}
-          ${buttonsHtml}
-          <div class="footer">
-            <span class="footer-made">Made with</span>
-            <span class="footer-brand">Linkeo</span>
-          </div>`;
+        page.innerHTML =
+          '<div class="avatar-wrap"><div class="avatar-ring"></div>' + avatarHtml + '</div>' +
+          (name ? '<div class="name">' + name + '</div>' : '') +
+          (desc ? '<div class="subtitle">' + desc + '</div>' : '') +
+          socialsHtml +
+          '<div class="divider"></div>' +
+          buttonsHtml +
+          '<div class="footer"><div class="footer-dot"></div><span class="footer-made">Made with</span><span class="footer-brand">Linkeo</span></div>';
 
-      } catch (e) {
-        page.innerHTML = `<div style="color:rgba(255,255,255,0.5);text-align:center;padding:60px 20px;font-size:13px">⚠ ${e.message}</div>`;
+      } catch(e) {
+        page.innerHTML = '<div style="color:rgba(255,255,255,0.5);text-align:center;padding:60px 20px;font-size:13px">⚠ ' + e.message + '</div>';
       }
     }
 
