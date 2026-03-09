@@ -3,211 +3,229 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perfil</title>
+  <title>Perfil · Linkeo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --black:   #020408;
-      --bg:      #050d18;
-      --panel:   #080f1e;
-      --neon:    #00d4ff;
-      --neon2:   #0088cc;
-      --neon3:   #00ffcc;
-      --border:  rgba(0, 212, 255, 0.2);
-      --border2: rgba(0, 212, 255, 0.08);
-      --text:    #c8e8f5;
-      --muted:   #4a7a99;
-      --glow:    0 0 20px rgba(0,212,255,0.4), 0 0 60px rgba(0,212,255,0.15);
-      --glow-sm: 0 0 8px rgba(0,212,255,0.6), 0 0 20px rgba(0,212,255,0.2);
+      --bg:         #8faa96;
+      --btn-bg:     #ffffff;
+      --btn-border: rgba(255,255,255,0.6);
+      --text:       #1a2018;
+      --muted:      rgba(26,32,24,0.5);
+      --name:       #1a2018;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       min-height: 100%;
-      background: var(--black);
+      background: var(--bg);
       color: var(--text);
-      font-family: 'Share Tech Mono', monospace;
+      font-family: 'Jost', sans-serif;
       -webkit-font-smoothing: antialiased;
-      cursor: crosshair;
     }
 
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 212, 255, 0.015) 2px,
-        rgba(0, 212, 255, 0.015) 4px
-      );
-      pointer-events: none;
-      z-index: 9999;
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 24px 60px;
     }
 
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);
-      pointer-events: none;
-      z-index: 9998;
+    .avatar-wrap {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin-bottom: 18px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s ease both;
     }
 
-    .bg-grid {
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
-      background-size: 40px 40px;
-      z-index: 0;
-      animation: gridPulse 8s ease-in-out infinite;
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(255,255,255,0.8);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
     }
 
-    @keyframes gridPulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
+    .avatar:hover { transform: scale(1.05); }
+
+    .avatar-placeholder {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      border: 3px solid rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
     }
 
-    .orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
-    .orb1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%); top: -100px; left: -100px; animation: orbFloat1 12s ease-in-out infinite; }
-    .orb2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,255,204,0.08) 0%, transparent 70%); bottom: -50px; right: -50px; animation: orbFloat2 15s ease-in-out infinite; }
-
-    @keyframes orbFloat1 {
-      0%, 100% { transform: translate(0, 0); }
-      33% { transform: translate(60px, 40px); }
-      66% { transform: translate(-30px, 80px); }
-    }
-    @keyframes orbFloat2 {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(-80px, -60px); }
+    .name {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--name);
+      letter-spacing: 0.2px;
+      text-align: center;
+      line-height: 1.2;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s ease both;
     }
 
-    .page { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 50px 20px 80px; }
-
-    .sys-bar { width: 100%; max-width: 460px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
-    .sys-bar-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--neon); box-shadow: var(--glow-sm); animation: blink 2s ease-in-out infinite; }
-
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-
-    .card { width: 100%; max-width: 460px; background: var(--panel); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; position: relative; box-shadow: 0 0 0 1px var(--border2), 0 4px 24px rgba(0,0,0,0.8), inset 0 1px 0 rgba(0,212,255,0.1); animation: bootUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
-
-    @keyframes bootUp {
-      from { opacity: 0; transform: translateY(30px) scale(0.97); filter: brightness(0); }
-      to   { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1); }
+    .subtitle {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 6px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.3s ease both;
     }
 
-    .card::before, .card::after { content: ''; position: absolute; width: 16px; height: 16px; border-color: var(--neon); border-style: solid; z-index: 10; }
-    .card::before { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
-    .card::after  { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+    .socials {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 22px;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
 
-    .card-strip { height: 3px; background: linear-gradient(90deg, transparent, var(--neon) 30%, var(--neon3) 70%, transparent); box-shadow: 0 0 12px var(--neon); }
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 50%;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
 
-    .header { padding: 36px 32px 28px; display: flex; flex-direction: column; align-items: center; gap: 20px; position: relative; }
+    .social-btn:hover {
+      transform: scale(1.2);
+      background: rgba(255,255,255,0.2);
+    }
 
-    .avatar-ring { position: relative; width: 96px; height: 96px; }
-    .avatar-ring svg { position: absolute; inset: -6px; width: calc(100% + 12px); height: calc(100% + 12px); animation: rotateSlow 8s linear infinite; }
+    .social-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
-    @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .links {
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-    .avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; display: block; border: 2px solid var(--neon2); box-shadow: 0 0 0 1px rgba(0,212,255,0.3), var(--glow); position: relative; z-index: 1; }
-    .avatar-placeholder { width: 96px; height: 96px; border-radius: 50%; background: linear-gradient(135deg, #0a1628, #0d2040); border: 2px solid var(--neon2); box-shadow: 0 0 0 1px rgba(0,212,255,0.3), var(--glow); display: flex; align-items: center; justify-content: center; font-size: 36px; position: relative; z-index: 1; }
+    .link-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 20px;
+      border-radius: 10px;
+      background: var(--btn-bg);
+      border: 1.5px solid var(--btn-border);
+      color: var(--text);
+      text-decoration: none;
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.3px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, background 0.2s ease;
+      opacity: 0;
+      animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
 
-    .avatar-corner { position: absolute; width: 12px; height: 12px; border-color: var(--neon3); border-style: solid; z-index: 2; }
-    .avatar-corner.tl { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
-    .avatar-corner.br { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+    .link-btn:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.14);
+      background: rgba(255,255,255,0.95);
+    }
 
-    .name-wrap { position: relative; text-align: center; }
-    .name { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 4px; text-transform: uppercase; text-shadow: var(--glow); position: relative; display: inline-block; }
+    .link-btn:active { transform: scale(0.98); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 
-    .name::before, .name::after { content: attr(data-text); position: absolute; inset: 0; font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; }
-    .name::before { color: #00ffcc; animation: glitch1 4s infinite; clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%); }
-    .name::after  { color: #ff0055; animation: glitch2 4s infinite; clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); }
+    .footer {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      opacity: 0;
+      animation: fadeIn 0.6s 1.4s ease both;
+    }
 
-    @keyframes glitch1 { 0%, 90%, 100% { transform: translate(0); opacity: 0; } 92% { transform: translate(-3px, 1px); opacity: 0.8; } 94% { transform: translate(3px, -1px); opacity: 0.6; } 96% { transform: translate(-2px, 0); opacity: 0.8; } 98% { transform: translate(0); opacity: 0; } }
-    @keyframes glitch2 { 0%, 90%, 100% { transform: translate(0); opacity: 0; } 91% { transform: translate(3px, 2px); opacity: 0.7; } 93% { transform: translate(-3px, -1px); opacity: 0.5; } 95% { transform: translate(2px, 1px); opacity: 0.7; } 97% { transform: translate(0); opacity: 0; } }
+    .footer-made  { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+    .footer-brand { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text); opacity: 0.5; }
 
-    .description { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.8; max-width: 320px; white-space: pre-wrap; letter-spacing: 0.5px; border-left: 2px solid var(--border); padding-left: 12px; }
-    .description.typing::after { content: '█'; color: var(--neon); animation: cursor 0.8s step-end infinite; }
-    @keyframes cursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    @keyframes shimmer {
+      0%   { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
 
-    .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent); position: relative; }
-    .divider::before { content: '// LINKS'; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 9px; color: var(--muted); letter-spacing: 3px; background: var(--panel); padding: 0 10px; }
+    .skeleton {
+      background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+      background-size: 800px 100%;
+      animation: shimmer 1.6s infinite linear;
+      border-radius: 8px;
+    }
 
-    .links-section { padding: 28px 20px 28px; display: flex; flex-direction: column; gap: 8px; }
+    .sk-avatar { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 18px; }
+    .sk-line   { height: 12px; border-radius: 6px; }
+    .sk-btn    { height: 52px; border-radius: 10px; }
 
-    .link-btn { display: flex; align-items: center; gap: 14px; padding: 13px 16px; border-radius: 3px; background: rgba(0,212,255,0.03); border: 1px solid var(--border2); color: var(--text); text-decoration: none; font-family: 'Share Tech Mono', monospace; font-size: 13px; letter-spacing: 1px; transition: all 0.2s ease; position: relative; overflow: hidden; opacity: 0; animation: slideIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-    @keyframes slideIn { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: translateX(0); } }
-
-    .link-btn::before { content: ''; position: absolute; top: -100%; left: 0; right: 0; height: 100%; background: linear-gradient(180deg, transparent, rgba(0,212,255,0.06), transparent); transition: top 0.4s ease; }
-    .link-btn::after  { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--neon); box-shadow: var(--glow-sm); transform: scaleY(0); transition: transform 0.2s ease; transform-origin: bottom; }
-
-    .link-btn:hover { background: rgba(0,212,255,0.07); border-color: rgba(0,212,255,0.4); color: #fff; box-shadow: var(--glow-sm), inset 0 0 20px rgba(0,212,255,0.05); transform: translateX(4px); }
-    .link-btn:hover::before { top: 100%; }
-    .link-btn:hover::after  { transform: scaleY(1); }
-    .link-btn:active { transform: translateX(2px) scale(0.99); }
-
-    .link-id   { font-size: 9px; color: var(--neon); letter-spacing: 1px; min-width: 28px; opacity: 0.7; }
-    .link-icon { width: 30px; height: 30px; border-radius: 3px; background: rgba(0,212,255,0.08); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; transition: box-shadow 0.2s ease, border-color 0.2s ease; }
-    .link-btn:hover .link-icon { border-color: rgba(0,212,255,0.5); box-shadow: 0 0 8px rgba(0,212,255,0.3); }
-    .link-name  { flex: 1; text-transform: uppercase; letter-spacing: 2px; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .link-arrow { font-size: 12px; color: var(--neon); opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease; }
-    .link-btn:hover .link-arrow { opacity: 1; transform: translateX(3px); }
-
-    .card-footer { padding: 12px 20px; border-top: 1px solid var(--border2); display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
-    .status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--neon3); box-shadow: 0 0 6px var(--neon3); animation: blink 2.5s ease-in-out infinite; display: inline-block; margin-right: 6px; }
-
-    .state { padding: 50px 24px; text-align: center; color: var(--muted); font-size: 12px; letter-spacing: 2px; }
-
-    @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
-    .skeleton { background: linear-gradient(90deg, #0a1220 25%, #0f1e30 50%, #0a1220 75%); background-size: 800px 100%; animation: shimmer 1.8s infinite linear; border-radius: 3px; }
-    .skeleton-avatar { width: 96px; height: 96px; border-radius: 50%; }
-    .skeleton-line   { height: 12px; }
-    .skeleton-btn    { height: 52px; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
   </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-
-  <div class="page">
-    <div class="sys-bar">
-      <span>SYS://LINKEO.PE</span>
-      <div class="sys-bar-dot"></div>
-      <span id="sys-time">--:--:--</span>
-    </div>
-    <div class="card" id="card">
-      <div class="card-strip"></div>
-      <div class="header">
-        <div class="skeleton skeleton-avatar"></div>
-        <div class="skeleton skeleton-line" style="width:160px; margin-top:8px"></div>
-        <div class="skeleton skeleton-line" style="width:220px; height:10px; opacity:0.5"></div>
-      </div>
-      <div class="links-section">
-        <div class="skeleton skeleton-btn"></div>
-        <div class="skeleton skeleton-btn" style="opacity:0.7; margin-top:8px"></div>
-        <div class="skeleton skeleton-btn" style="opacity:0.4; margin-top:8px"></div>
-      </div>
+  <div class="page" id="page">
+    <div class="skeleton sk-avatar"></div>
+    <div class="skeleton sk-line" style="width:160px"></div>
+    <div class="skeleton sk-line" style="width:100px; height:10px; margin-top:8px; opacity:0.6"></div>
+    <div style="height:28px"></div>
+    <div style="width:100%; max-width:360px; display:flex; flex-direction:column; gap:10px;">
+      <div class="skeleton sk-btn"></div>
+      <div class="skeleton sk-btn" style="opacity:0.7"></div>
+      <div class="skeleton sk-btn" style="opacity:0.45"></div>
     </div>
   </div>
 
   <script>
-    const SLUG     = "faker1";
+    const SLUG     = "linkeo";
     const API_BASE = "https://linkeobackend2026-production.up.railway.app/api";
 
-    function updateClock() {
-      const el = document.getElementById("sys-time");
-      if (el) el.textContent = new Date().toLocaleTimeString("es-PE", { hour12: false });
-    }
-    updateClock();
-    setInterval(updateClock, 1000);
+    const PLATFORM_META = {
+      instagram: { icon: `<svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>` },
+      tiktok:    { icon: `<svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>` },
+      twitter:   { icon: `<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>` },
+      facebook:  { icon: `<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>` },
+      youtube:   { icon: `<svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>` },
+      linkedin:  { icon: `<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>` },
+      whatsapp:  { icon: `<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>` },
+    };
 
     function normalizeUrl(url) {
       if (!url) return "#";
@@ -215,42 +233,24 @@
       return "https://" + url;
     }
 
-    function getLinkEmoji(name, url) {
-      const n = (name || "").toLowerCase();
-      const u = (url  || "").toLowerCase();
-      if (u.includes("wa.me") || n.includes("whatsapp")) return "💬";
-      if (u.includes("instagram") || n.includes("instagram")) return "📸";
-      if (u.includes("tiktok") || n.includes("tiktok")) return "🎵";
-      if (u.includes("facebook") || n.includes("facebook")) return "👥";
-      if (u.includes("youtube") || n.includes("youtube")) return "▶️";
-      if (u.includes("linkedin") || n.includes("linkedin")) return "💼";
-      if (u.includes("twitter") || u.includes("x.com") || n.includes("twitter")) return "𝕏";
-      if (u.includes("telegram") || n.includes("telegram")) return "✈️";
-      if (u.startsWith("mailto:") || n.includes("email") || n.includes("correo")) return "✉️";
-      if (u.startsWith("tel:") || n.includes("teléfono") || n.includes("telefono")) return "📞";
-      if (u.includes(".pdf") || n.includes("pdf")) return "📄";
-      return "⬡";
-    }
-
-    function typewriter(el, text, speed = 22) {
-      el.textContent = "";
-      el.classList.add("typing");
-      let i = 0;
-      const interval = setInterval(() => {
-        el.textContent += text[i];
-        i++;
-        if (i >= text.length) {
-          clearInterval(interval);
-          setTimeout(() => el.classList.remove("typing"), 800);
-        }
-      }, speed);
+    function getPlatformKey(key, url) {
+      const k = (key || "").toLowerCase();
+      const u = (url || "").toLowerCase();
+      if (k.includes("instagram") || u.includes("instagram")) return "instagram";
+      if (k.includes("tiktok") || u.includes("tiktok")) return "tiktok";
+      if (k.includes("twitter") || u.includes("twitter") || u.includes("x.com")) return "twitter";
+      if (k.includes("facebook") || u.includes("facebook")) return "facebook";
+      if (k.includes("youtube") || u.includes("youtube")) return "youtube";
+      if (k.includes("linkedin") || u.includes("linkedin")) return "linkedin";
+      if (k.includes("whatsapp") || u.includes("wa.me")) return "whatsapp";
+      return null;
     }
 
     async function render() {
-      const card = document.getElementById("card");
+      const page = document.getElementById("page");
       try {
         const res  = await fetch(`${API_BASE}/profiles/public/${SLUG}`);
-        if (!res.ok) throw new Error("PROFILE_NOT_FOUND");
+        if (!res.ok) throw new Error("Perfil no encontrado");
         const data = await res.json();
 
         const name        = data.theme?.title || data.displayName || "";
@@ -259,73 +259,53 @@
 
         const platformLinks = (data.links || [])
           .filter(l => l.visible !== false && l.url && l.url.trim())
-          .map(l => ({ name: l.key, url: l.url, order: l.order ?? 9999 }));
+          .map(l => ({ key: l.key, name: l.key, url: l.url, order: l.order ?? 9999 }));
 
         const customLinks = (data.customLinks || [])
           .filter(l => l.visible !== false && l.url && l.url.trim())
-          .map(l => ({ name: l.name || "Enlace", url: l.url, order: l.order ?? 9999 }));
+          .map(l => ({ key: null, name: l.name || "Enlace", url: l.url, order: l.order ?? 9999 }));
 
-        const links = [...platformLinks, ...customLinks].sort((a, b) => a.order - b.order);
+        const allLinks = [...platformLinks, ...customLinks].sort((a, b) => a.order - b.order);
+
+        const socialLinks = allLinks.filter(l => l.key && getPlatformKey(l.key, l.url));
+        const buttonLinks = allLinks.filter(l => !l.key || !getPlatformKey(l.key, l.url));
 
         const avatarHtml = avatarUrl
-          ? `<img class="avatar" src="${avatarUrl}" alt="${name}" onerror="this.parentElement.outerHTML='<div class=\\'avatar-placeholder\\'>◈</div>'" />`
-          : `<div class="avatar-placeholder">◈</div>`;
+          ? `<img class="avatar" src="${avatarUrl}" alt="${name}" />`
+          : `<div class="avatar-placeholder">👤</div>`;
 
-        const linksHtml = links.length === 0
-          ? `<div class="state">[ NO LINKS FOUND ]</div>`
-          : links.map((l, i) => `
+        const socialsHtml = socialLinks.length === 0 ? "" : `
+          <div class="socials">
+            ${socialLinks.map(l => {
+              const pk = getPlatformKey(l.key, l.url);
+              const meta = PLATFORM_META[pk];
+              if (!meta) return "";
+              return `<a class="social-btn" href="${normalizeUrl(l.url)}" target="_blank" rel="noreferrer">${meta.icon}</a>`;
+            }).join("")}
+          </div>`;
+
+        const buttonsHtml = buttonLinks.length === 0 ? "" : `
+          <div class="links">
+            ${buttonLinks.map((l, i) => `
               <a class="link-btn" href="${normalizeUrl(l.url)}" target="_blank" rel="noreferrer"
                  style="animation-delay:${0.5 + i * 0.08}s">
-                <span class="link-id">${String(i + 1).padStart(2, "0")}</span>
-                <div class="link-icon">${getLinkEmoji(l.name, l.url)}</div>
-                <span class="link-name">${l.name || "ENLACE"}</span>
-                <span class="link-arrow">→</span>
-              </a>
-            `).join("");
+                ${l.name || "Enlace"}
+              </a>`).join("")}
+          </div>`;
 
-        card.innerHTML = `
-          <div class="card-strip"></div>
-          <div class="header">
-            <div class="avatar-ring">
-              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="60" cy="60" r="54" stroke="rgba(0,212,255,0.3)" stroke-width="1" stroke-dasharray="8 4"/>
-                <circle cx="60" cy="60" r="48" stroke="rgba(0,255,204,0.2)" stroke-width="1" stroke-dasharray="3 8"/>
-                <circle cx="60" cy="3" r="3" fill="#00d4ff" opacity="0.8"/>
-                <circle cx="117" cy="60" r="2" fill="#00ffcc" opacity="0.6"/>
-              </svg>
-              ${avatarHtml}
-              <div class="avatar-corner tl"></div>
-              <div class="avatar-corner br"></div>
-            </div>
-            ${name ? `<div class="name-wrap"><div class="name" data-text="${name}">${name}</div></div>` : ""}
-            ${description ? `<div class="description" id="desc"></div>` : ""}
-          </div>
-          <div class="divider"></div>
-          <div class="links-section">${linksHtml}</div>
-          <div class="card-footer">
-            <span><span class="status-dot"></span>ONLINE</span>
-            <span>${links.length} LINKS ACTIVE</span>
-            <span>v2.0.26</span>
-          </div>
-        `;
-
-        if (description) {
-          setTimeout(() => {
-            const descEl = document.getElementById("desc");
-            if (descEl) typewriter(descEl, description, 18);
-          }, 700);
-        }
+        page.innerHTML = `
+          <div class="avatar-wrap">${avatarHtml}</div>
+          ${name ? `<div class="name">${name}</div>` : ""}
+          ${description ? `<div class="subtitle">${description}</div>` : ""}
+          ${socialsHtml}
+          ${buttonsHtml}
+          <div class="footer">
+            <span class="footer-made">Made with</span>
+            <span class="footer-brand">Linkeo</span>
+          </div>`;
 
       } catch (e) {
-        card.innerHTML = `
-          <div class="card-strip"></div>
-          <div class="state" style="padding:60px 24px">
-            <div style="color:#ff0055;font-size:28px;margin-bottom:12px">⚠</div>
-            <div style="color:#ff0055;letter-spacing:3px">ERROR: ${e.message}</div>
-            <div style="margin-top:8px;font-size:10px;opacity:0.5">RETRY IN 5 SECONDS...</div>
-          </div>
-        `;
-        setTimeout(() => render(), 5000);
+        page.innerHTML = `<div style="color:rgba(255,255,255,0.5);text-align:center;padding:60px 20px;font-size:13px">⚠ ${e.message}</div>`;
       }
     }
 
