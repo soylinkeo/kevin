@@ -314,7 +314,7 @@
     async function render() {
       const page = document.getElementById("page");
       try {
-        const res  = await fetch(API_BASE + "/profiles/public/" + SLUG);
+ const res = await fetch(API_BASE + "/api/profiles/public/" + SLUG);
         if (!res.ok) throw new Error("Perfil no encontrado");
         const data = await res.json();
 
